@@ -15,7 +15,7 @@ src_dir="${src_dir:-$HOME}"
 
 workspace="$src_dir/Reach"
 hise_base="$src_dir/HISE"
-hise="$src_dir/HISE/projects/standalone/Builds/LinuxMakefile/build/HISE\ Standalone"
+hise="$src_dir/HISE/projects/standalone/Builds/LinuxMakefile/build/HISE Standalone"
 projucer="$src_dir/HISE/tools/projucer/Projucer"
 makeself="$src_dir/makeself"
 

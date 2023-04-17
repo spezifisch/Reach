@@ -1,4 +1,4 @@
-name: Create and publish a Docker image
+name: Build and upload Plugin
 on:
   push:
     branches:
@@ -22,7 +22,7 @@ jobs:
           tags: plugin-build
 
       - name: Copy artifacts from Docker image to /output/
-        run: docker run -v /output:/mnt -it --rm plugin-build bash -c "cp -a /output /mnt/"
+        run: docker run -v /output:/mnt --rm plugin-build bash -c "cp -a /output/* /mnt/"
 
       - name: Upload artifacts from /output/
         uses: actions/upload-artifact@v3

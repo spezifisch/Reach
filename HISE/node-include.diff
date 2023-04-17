@@ -1,9 +1,0 @@
-diff --git a/hi_modules/nodes/HiseNodeFactory.cpp b/hi_modules/nodes/HiseNodeFactory.cpp
-index 93adf67c1..2b6af573c 100644
---- a/hi_modules/nodes/HiseNodeFactory.cpp
-+++ b/hi_modules/nodes/HiseNodeFactory.cpp
-@@ -32,6 +32,7 @@
-
- #pragma once
-
-+#include "hi_faust_jit/hi_faust_jit.h"

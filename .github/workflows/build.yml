@@ -16,18 +16,21 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
 
-      - name: Build Docker image
+      - name: Build plugin with HISE
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
           push: false
           tags: plugin-build
+          build-args: |
+            "REACH_VERSION=${{ github.ref_name }}"
 
       - name: Copy artifacts from Docker image to /output/
         run: docker run -v /output:/mnt --rm plugin-build bash -c "cp -a /output/* /mnt/"
 
-      - name: Upload artifacts from /output/
+      - name: Upload artifacts for untagged builds
         uses: actions/upload-artifact@v3
+        if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
         with:
             name: plugin
             path: /output/

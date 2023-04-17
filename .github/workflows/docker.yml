@@ -3,13 +3,15 @@ on:
   push:
     branches:
       - main
-      - 'releases/**'
+      - develop
+    tags:
+      - "v*.*"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
     steps:
       - name: Check out repository code
         uses: actions/checkout@v3
@@ -29,3 +31,10 @@ jobs:
         with:
             name: plugin
             path: /output/
+
+      - name: Release tagged builds
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/v')
+        with:
+          files: |
+            /output/*

@@ -59,6 +59,9 @@ then
   fi
 fi
 
+echo "Package files:"
+find "$package" -type f -exec sha256sum '{}' \;
+
 # STEP 2: BUILDING INSTALLER
 # ====================================================================
 
@@ -72,16 +75,15 @@ then
 
   # Run makeself
   sh "$makeself/makeself.sh" --license "$workspace/License.txt" "$workspace/Packaging/GNU/temp" "$workspace/Installer/$project $version.sh" "$project" ./GNUInstaller.sh
-
 else
   echo "Skip Building Installer"
 fi
 
 if ((do_cleanup==1))
 then
-  echo Cleanup
+  echo "Cleanup"
   cd "$workspace" || exit 2
   rm -rf "$workspace/Packaging/GNU/temp"
 else
-  ls -l "$package"
+  echo "Skip Cleanup"
 fi

@@ -21,11 +21,11 @@ jobs:
           push: false
           tags: plugin-build
 
-      - name: Copy artifacts from Docker image
-        run: docker run -v $PWD:/mnt -it --rm plugin-build bash -c "cp -a /output /mnt/"
+      - name: Copy artifacts from Docker image to /output/
+        run: docker run -v /output:/mnt -it --rm plugin-build bash -c "cp -a /output /mnt/"
 
-      - name: Upload artifacts
+      - name: Upload artifacts from /output/
         uses: actions/upload-artifact@v3
         with:
             name: plugin
-            path: /mnt/
+            path: /output/

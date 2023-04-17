@@ -1,4 +1,5 @@
-FROM ghcr.io/spezifisch/hise-builder@sha256:a92fcd485d1653720c0a1920e018f06f6673e39830093cadaaa14ccaa4ef5eec
+# use pinned main-hise-3.0.3 release
+FROM ghcr.io/spezifisch/hise-builder@sha256:3b7b726904c44dcafffe697c68d9788c75b3f72b8646592a212ab477826db4f9
 
 ARG REACH_VERSION=1.5.0
 ARG VST3_BUNDLE=Reach-$REACH_VERSION-VST3.tar.gz

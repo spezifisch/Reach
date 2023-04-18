@@ -21,10 +21,10 @@ jobs:
         run: |
           if ${{ startsWith(github.ref_name, 'v') }}; then
             # use v1.2.3 tag
-            echo "{plugin_version}=${{ github.ref_name  }}" >> $GITHUB_ENV
+            echo "plugin_version=${{ github.ref_name  }}" >> $GITHUB_ENV
           else
             # use nightly-20231231-0000abcd
-            echo "{plugin_version}=nightly-{$(date +'%Y%m%d')}-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+            echo "plugin_version=nightly-$(date +'%Y%m%d')-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
           fi
 
       - name: Build plugin with HISE

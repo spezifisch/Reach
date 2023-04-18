@@ -23,23 +23,28 @@ makeself="$src_dir/makeself"
 package="$workspace/Packaging/GNU/temp"
 mkdir -p "$package"
 
-mkdir -p "$workspace/Binaries"
-cd "$workspace/Binaries" || exit 1
-
 # STEP 1: BUILDING THE BINARIES
 # ====================================================================
 if ((build_standalone == 1 || build_plugin == 1))
 then
+  chmod +x "$projucer"
+
   "$hise" set_hise_folder -p:"$hise_base"
   "$hise" set_project_folder -p:"$workspace"
   "$hise" set_version -v:"$version"
+  "$hise" clean -p:"$workspace" --all
 
-  chmod +x "$projucer"
+  echo "Building DSP networks"
+  "$hise" export_ci "XmlPresetBackups/$xmlFile.xml" -t:instrument -dsp
+  cd "$workspace/DspNetworks/Binaries" || exit 1
+  bash -ex ./batchCompileLinux.sh
+
+  mkdir -p "$workspace/Binaries"
+  cd "$workspace/Binaries" || exit 1
 
   if ((build_standalone==1))
   then
     echo "Building standalone app"
-    "$hise" clean -p:"$workspace" --all
     "$hise" export_ci "XmlPresetBackups/$xmlFile.xml" -t:standalone -a:x64
 
     bash -ex "$workspace/Binaries/batchCompileLinux.sh"
@@ -49,8 +54,7 @@ then
 
   if ((build_plugin==1))
   then
-    echo "Building plugins"
-    "$hise" clean -p:"$workspace" --all
+    echo "Building plugin"
     "$hise" export_ci "XmlPresetBackups/$xmlFile.xml" -t:instrument -p:VST3 -a:x64
 
     bash -ex "$workspace/Binaries/batchCompileLinux.sh"
@@ -82,7 +86,7 @@ fi
 if ((do_cleanup==1))
 then
   echo "Cleanup"
-  cd "$workspace" || exit 2
+  cd "$workspace" || exit 1
   rm -rf "$workspace/Packaging/GNU/temp"
 else
   echo "Skip Cleanup"

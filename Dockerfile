@@ -13,10 +13,7 @@ RUN apt-get update && apt-get -y install \
 
 # compile plugin
 WORKDIR /root/Reach
-ARG DISPLAY=:99
-RUN \
-    (Xvfb -ac :99 -screen 0 800x600x24 > /dev/null 2>&1 &) \
-    && ./Packaging/GNU/compileAndBuild.sh
+RUN xvfb-run ./Packaging/GNU/compileAndBuild.sh
 
 # bundle plugin
 WORKDIR /root/Reach/Binaries/Builds/LinuxMakefile/build

@@ -6,11 +6,17 @@ ARG VST3_BUNDLE="Reach-v$REACH_VERSION-Linux-VST3.tar.gz"
 COPY . /root/Reach/
 
 # workaround for HISE segfault when it expects an X server due to the way -dsp flag is currently implemented
-RUN X -config ~/dummy/dummy*.conf &
+ARG DEBIAN_FRONTEND=noninteractive
+RUN apt-get update && apt-get -y install \
+    xvfb \
+    && rm -rf /var/lib/apt/lists/*
 
 # compile plugin
 WORKDIR /root/Reach
-RUN ./Packaging/GNU/compileAndBuild.sh
+ARG DISPLAY=:99
+RUN \
+    (Xvfb -ac :99 -screen 0 800x600x24 > /dev/null 2>&1 &) \
+    && ./Packaging/GNU/compileAndBuild.sh
 
 # bundle plugin
 WORKDIR /root/Reach/Binaries/Builds/LinuxMakefile/build

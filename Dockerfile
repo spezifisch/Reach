@@ -5,6 +5,9 @@ ARG VST3_BUNDLE="Reach-v$REACH_VERSION-Linux-VST3.tar.gz"
 
 COPY . /root/Reach/
 
+# workaround for HISE segfault when it expects an X server due to the way -dsp flag is currently implemented
+RUN X -config ~/dummy/dummy*.conf &
+
 # compile plugin
 WORKDIR /root/Reach
 RUN ./Packaging/GNU/compileAndBuild.sh

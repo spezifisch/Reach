@@ -8,6 +8,7 @@ xmlFile=Reach
 build_standalone=0
 build_plugin=1
 build_installer=0
+build_dsp=1
 do_cleanup=0
 
 # docker builder is based in /root, override this by setting src_dir env var
@@ -34,10 +35,13 @@ then
   "$hise" set_version -v:"$version"
   "$hise" clean -p:"$workspace" --all
 
-  echo "Building DSP networks"
-  "$hise" export_ci "XmlPresetBackups/$xmlFile.xml" -t:instrument -dsp
-  cd "$workspace/DspNetworks/Binaries" || exit 1
-  bash -ex ./batchCompileLinux.sh
+  if ((build_dsp==1))
+  then
+    echo "Building DSP networks"
+    "$hise" export_ci "XmlPresetBackups/$xmlFile.xml" -t:instrument -dsp
+    cd "$workspace/DspNetworks/Binaries" || exit 1
+    bash -ex ./batchCompileLinux.sh
+  fi
 
   mkdir -p "$workspace/Binaries"
   cd "$workspace/Binaries" || exit 1

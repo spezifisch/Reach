@@ -15,10 +15,10 @@ RUN apt-get update && apt-get -y install \
 
 # compile plugin
 WORKDIR /root/Reach
-#RUN xvfb-run ./Packaging/GNU/compileAndBuild.sh
+RUN xvfb-run ./Packaging/GNU/compileAndBuild.sh
 
 # bundle plugin
-#WORKDIR /root/Reach/Binaries/Builds/LinuxMakefile/build
-#RUN mkdir -p /output \
-#    && tar cfvz "/output/$VST3_BUNDLE" Reach.vst3 \
-#    && find /output -type f -exec sha256sum '{}' \;
+WORKDIR /root/Reach/Binaries/Builds/LinuxMakefile/build
+RUN mkdir -p /output \
+    && tar cfvz "/output/$VST3_BUNDLE" Reach.vst3 \
+    && find /output -type f -exec sha256sum '{}' \;

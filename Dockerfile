@@ -6,10 +6,12 @@ ARG VST3_BUNDLE="Reach-v$REACH_VERSION-Linux-VST3.tar.gz"
 COPY . /root/Reach/
 
 # workaround for HISE segfault when it expects an X server due to the way -dsp flag is currently implemented
+# TODO include in hise-builder
 ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get -y install \
     xvfb \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && ln -s .. /opt/intel/ipp/lib/intel64
 
 # compile plugin
 WORKDIR /root/Reach

@@ -16,6 +16,17 @@ jobs:
       - name: Check out repository code
         uses: actions/checkout@v3
 
+      - name: Generate version string
+        id: version
+        run: |
+          if ${{ startsWith(github.ref_name, 'v') }}; then
+            # use v1.2.3 tag
+            echo "{plugin_version}=${{ github.ref_name  }}" >> $GITHUB_ENV
+          else
+            # use nightly-20231231-0000abcd
+            echo "{plugin_version}=nightly-{$(date +'%Y-%m-%d')}-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+          fi
+
       - name: Build plugin with HISE
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
@@ -23,7 +34,7 @@ jobs:
           push: false
           tags: plugin-build
           build-args: |
-            "REACH_VERSION=${{ github.ref_name }}"
+            "PLUGIN_VERSION=${{ env.plugin_version }}"
 
       - name: Copy artifacts from Docker image to /output/
         run: docker run -v /output:/mnt --rm plugin-build bash -c "cp -a /output/* /mnt/"

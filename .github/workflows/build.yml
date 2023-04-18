@@ -24,7 +24,7 @@ jobs:
             echo "{plugin_version}=${{ github.ref_name  }}" >> $GITHUB_ENV
           else
             # use nightly-20231231-0000abcd
-            echo "{plugin_version}=nightly-{$(date +'%Y-%m-%d')}-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+            echo "{plugin_version}=nightly-{$(date +'%Y%m%d')}-$(git rev-parse --short HEAD)" >> $GITHUB_ENV
           fi
 
       - name: Build plugin with HISE

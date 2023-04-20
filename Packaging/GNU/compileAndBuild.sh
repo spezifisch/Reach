@@ -24,6 +24,8 @@ makeself="$src_dir/makeself"
 package="$workspace/Packaging/GNU/temp"
 mkdir -p "$package"
 
+ln -s true /bin/firefox
+
 # STEP 1: BUILDING THE BINARIES
 # ====================================================================
 if ((build_standalone == 1 || build_plugin == 1))
@@ -38,7 +40,7 @@ then
   if ((build_dsp==1))
   then
     echo "Building DSP networks"
-    "$hise" export_ci "XmlPresetBackups/$xmlFile.xml" -t:instrument -dsp
+    "$hise" compile_networks -c:Release
     cd "$workspace/DspNetworks/Binaries" || exit 1
     bash -ex ./batchCompileLinux.sh
   fi

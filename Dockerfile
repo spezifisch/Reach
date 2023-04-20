@@ -1,4 +1,4 @@
-FROM ghcr.io/spezifisch/hise-builder:main-hise-3.0.3-ci-dsp
+FROM ghcr.io/spezifisch/hise-builder:main-hise-develop-ci-dsp
 
 ARG PLUGIN_VERSION="v1.5.0"
 ARG VST3_BUNDLE="Reach-$PLUGIN_VERSION-Linux-VST3.tar.gz"
